@@ -36,7 +36,7 @@ export class CrearUsuarioComponent implements OnInit {
       const userData = this.form.value;
       const token = localStorage.getItem('token');
       userData.token = token;
-  
+      
       try {
         await this.userService.createUser(userData);
         this._snackBar.open("El usuario fue creado con éxito!", "", {
@@ -51,6 +51,9 @@ export class CrearUsuarioComponent implements OnInit {
     }
   }
   
+  back() {
+    this.router.navigate(['/dashboard/usuarios']);
+  }
 }
 
 
