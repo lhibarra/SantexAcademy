@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,FormBuilder, Validators } from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-/*import { timeout } from 'rxjs';*/
+import { AuthService } from '../../services/auth.service';
+import { UserLogin } from '../../interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -11,48 +12,48 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  loading= false;
+  loading = false;
 
-
-  constructor(private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) { 
-    this.form= this.fb.group({
-      usuario:['', Validators.required],
-      password:['', Validators.required]
-    })
+  constructor(
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  ingresar(){
-    console.log(this.form);
-    const usuario= this.form.value.usuario;
-    const password= this.form.value.password;
+  async login() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.loading = true;
+    const user: UserLogin = {
+      username: this.form.value.username,
+      password: this.form.value.password
+    }
 
-    if(usuario=="mixx" && password== "admin123"){
-      //redireccionamos al dashboard
-      this.fakeLoading();
-    }else{
-      //mensaje de error
+    try {
+      const response = await this.authService.login(user);
+      localStorage.setItem('token', response.token);
+      this.router.navigate(['/dashboard']);
+    } catch (error) {
       this.error();
       this.form.reset();
+      this.loading = false;
     }
   }
-   error(){
-    this._snackBar.open("usuario o contraseña invalido!", "" ,{
-      duration:5000,
-      horizontalPosition:"center",
-      verticalPosition:"bottom"
-    })
-   }
 
-   fakeLoading(){
-    this.loading= true;
-    setTimeout(()=>{
-
-      //lo direccionamos al dashboard
-      this.router.navigate(["dashboard"])
-    }, 1500);
-   }
-
+  error() {
+    this._snackBar.open('Usuario o contraseña inválidos!', '', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
 }
