@@ -52,5 +52,22 @@ export class UserService {
     }
   }
 
+  async getIdUserSession() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Decodificar el token JWT
+      const tokenParts = token.split('.');
+      const payload = JSON.parse(atob(tokenParts[1]));
+    
+      // Obtener el ID del usuario del payload decodificado
+      const userId = payload.id;
+      console.log(userId);
+    
+      return userId;
+    } else {
+      console.log('No se encontró un token en el localStorage.');
+    }
+
+  }
 
 }
