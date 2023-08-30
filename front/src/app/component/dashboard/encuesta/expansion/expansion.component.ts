@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupName, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Survey } from 'src/app/interfaces/Survey';
 import { UserService } from 'src/app/services/usuario.service'
@@ -39,7 +40,8 @@ export class ExpansionComponent implements OnInit {
     private fb: FormBuilder,
     private _snackBar: MatSnackBar, 
     private http: HttpClient,
-    private userService: UserService) {
+    private userService: UserService,
+    private route: Router) {
    
     //pregunta 9
     this.pregunta9 = this.fb.group({
@@ -233,11 +235,20 @@ export class ExpansionComponent implements OnInit {
   async enviar() {
     if (this.pasoUno.valid) {
       const formData = this.pasoUno.value;
-      const idUser = await this.userService.getIdUserSession();
+      let idUser;
+
+      try {
+        idUser = await this.userService.getIdUserSession();
+      } catch (error) {
+        console.error('No se pudo obtener el ID del usuario:', error);
+        // todo: Manejar el error por ejemplo, mostrar un mensaje al usuario
+        return; // Salir del método si no se pudo obtener el ID del usuario
+     }
+      
       const survey: Survey = {
         email: formData.pregunta2,
         questions: {},
-        surveyorId: idUser, // todo: obtener el encuestador
+        surveyorId: idUser,
       };
   
       // Agregar las respuestas de las preguntas al objeto survey
@@ -256,7 +267,9 @@ export class ExpansionComponent implements OnInit {
       
       try {
         const response = await this.http.post(`${this.appUrl}api/surveys/`, survey, requestOptions).toPromise();
-        console.log('Encuesta enviada con éxito:', response);
+        if(!response) {
+          return;
+        }
         this.formEnviado = true;
   
         this._snackBar.open('Encuesta Enviada!!!', '', {
@@ -264,9 +277,10 @@ export class ExpansionComponent implements OnInit {
           horizontalPosition: 'center',
           verticalPosition: 'bottom'
         });
+        this.route.navigate(['/dashboard']); // todo: redigirir al listado de encuestas
       } catch (error) {
         console.error('Error al enviar la encuesta:', error);
-        // Manejar el error aquí si es necesario
+        // todo: Manejar el error aquí
       }
     }
   }
