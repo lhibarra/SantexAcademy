@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user'
 import { environment } from '../../environments/environment';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-
+import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,20 +52,18 @@ export class UserService {
     }
   }
 
-  async getIdUserSession() {
+  async getIdUserSession(): Promise<number | null> {
     const token = localStorage.getItem('token');
     if (token) {
       // Decodificar el token JWT
-      const tokenParts = token.split('.');
-      const payload = JSON.parse(atob(tokenParts[1]));
+      const decodedToken: any = jwt_decode(token);
     
       // Obtener el ID del usuario del payload decodificado
-      const userId = payload.id;
-      console.log(userId);
-    
+      const userId = decodedToken.userId;
       return userId;
     } else {
       console.log('No se encontró un token en el localStorage.');
+      return null;
     }
 
   }
