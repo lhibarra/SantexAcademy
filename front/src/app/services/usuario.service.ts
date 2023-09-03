@@ -17,7 +17,7 @@ export class UserService {
       'Authorization': `Bearer ${user.token}`
     });
     try {
-      const usersObservable = this.http.post(`${this.appUrl}user/`, user, {headers});
+      const usersObservable = this.http.post(`${this.appUrl}user/`, user, { headers });
       return await firstValueFrom(usersObservable);
     } catch (error) {
       console.error(error);
@@ -57,7 +57,7 @@ export class UserService {
     if (token) {
       // Decodificar el token JWT
       const decodedToken: any = jwt_decode(token);
-    
+
       // Obtener el ID del usuario del payload decodificado
       const userId = decodedToken.userId;
       return userId;
@@ -66,6 +66,20 @@ export class UserService {
       return null;
     }
 
+  }
+
+  async updateUser(id: number, user: User): Promise<User> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    try {
+      const updatedUser = await this.http.put<User>(`${this.appUrl}/${id}`, user, { headers });
+      console.log(updatedUser);
+      return firstValueFrom(updatedUser);
+      console.log(updatedUser);
+    } catch (error) {
+      console.error('ERROR', error);
+      throw error;
+    }
   }
 
 }
