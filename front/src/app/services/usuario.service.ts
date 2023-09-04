@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user'
 import { environment } from '../../environments/environment';
-import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
-
+import { firstValueFrom, lastValueFrom } from 'rxjs';
+import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +28,7 @@ export class UserService {
       'Authorization': `Bearer ${user.token}`
     });
     try {
-      const usersObservable = this.http.post(`${this.appUrl}user/`, user, {headers});
+      const usersObservable = this.http.post(`${this.appUrl}user/`, user, { headers });
       return await firstValueFrom(usersObservable);
     } catch (error) {
       console.error(error);
@@ -63,18 +63,34 @@ export class UserService {
     }
   }
 
-  async updateUser(userData: any){
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${userData.token}`
-    });
+  async getIdUserSession(): Promise<number | null> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Decodificar el token JWT
+      const decodedToken: any = jwt_decode(token);
+
+      // Obtener el ID del usuario del payload decodificado
+      const userId = decodedToken.userId;
+      return userId;
+    } else {
+      console.log('No se encontró un token en el localStorage.');
+      return null;
+    }
+
+  }
+
+  async updateUser(id: number, user: User): Promise<User> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
     try {
-      const usersObservable = this.http.put(`${this.appUrl}user/${userData.id}`, userData, {headers});
-      return await firstValueFrom(usersObservable);
+      const updatedUser = await this.http.put<User>(`${this.appUrl}/${id}`, user, { headers });
+      console.log(updatedUser);
+      return firstValueFrom(updatedUser);
+      console.log(updatedUser);
     } catch (error) {
-      console.error(error);
+      console.error('ERROR', error);
       throw error;
     }
   }
-
 
 }

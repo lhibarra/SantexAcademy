@@ -2,8 +2,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormGroupName, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { Survey } from 'src/app/interfaces/Survey';
+import { UserService } from 'src/app/services/usuario.service'
 @Component({
   selector: 'app-expansion',
   templateUrl: './expansion.component.html',
@@ -33,7 +36,12 @@ export class ExpansionComponent implements OnInit {
   formEnviado: any;
 
 
-  constructor(private fb: FormBuilder,private _snackBar: MatSnackBar, private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar, 
+    private http: HttpClient,
+    private userService: UserService,
+    private route: Router) {
    
     //pregunta 9
     this.pregunta9 = this.fb.group({
@@ -189,7 +197,7 @@ export class ExpansionComponent implements OnInit {
     });
   }
 
-
+  private appUrl = environment.APP_URL;
   ngOnInit(): void {}
 
   step = 0;
@@ -219,27 +227,61 @@ export class ExpansionComponent implements OnInit {
     }
   }
   
- enviar(){
-    console.log(this.pasoUno);
-  }
- 
  resetForm(event: Event) {
     event.preventDefault();
     this.pasoUno.reset(); //reinicia el formulario.
   } 
   
-  enviado() {
-    if (!this.formEnviado && this.pasoUno.status=='VALID') {
-      this.formEnviado = true;
-      this._snackBar.open("Encuesta Enviada!!!", "", {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
+  async enviar() {
+    if (this.pasoUno.valid) {
+      const formData = this.pasoUno.value;
+      let idUser;
+
+      try {
+        idUser = await this.userService.getIdUserSession();
+      } catch (error) {
+        console.error('No se pudo obtener el ID del usuario:', error);
+        // todo: Manejar el error por ejemplo, mostrar un mensaje al usuario
+        return; // Salir del método si no se pudo obtener el ID del usuario
+     }
+      
+      const survey: Survey = {
+        email: formData.pregunta2,
+        questions: {},
+        surveyorId: idUser,
+      };
+  
+      // Agregar las respuestas de las preguntas al objeto survey
+      for (let i = 1; i <= 24; i++) {
+        const preguntaKey = `pregunta${i}`;
+        survey.questions[preguntaKey] = formData[preguntaKey];
+      }
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
       });
+      
+      const requestOptions = {
+        headers: headers
+      };
+      
+      try {
+        const response = await this.http.post(`${this.appUrl}api/surveys/`, survey, requestOptions).toPromise();
+        if(!response) {
+          return;
+        }
+        this.formEnviado = true;
+  
+        this._snackBar.open('Encuesta Enviada!!!', '', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        });
+        this.route.navigate(['/dashboard']); // todo: redigirir al listado de encuestas
+      } catch (error) {
+        console.error('Error al enviar la encuesta:', error);
+        // todo: Manejar el error aquí
+      }
     }
-  } 
- 
+  }
 }
-
-
-
