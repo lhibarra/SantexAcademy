@@ -6,9 +6,12 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { EncuestaComponent } from './encuesta/encuesta.component';
 import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
 import { VerUsuarioComponent } from './usuarios/ver-usuario/ver-usuario.component';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
-  {path:"", component: DashboardComponent, children:[
+  {path:"", component: DashboardComponent, 
+  canActivate: [AuthGuard], 
+  children:[
     {path:"", component: InicioComponent},
     {path:"usuarios", component: UsuariosComponent},
     {path:"encuesta", component: EncuestaComponent},
