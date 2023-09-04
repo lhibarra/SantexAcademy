@@ -2,9 +2,9 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 <<<<<<< HEAD
 import { LoginComponent } from './component/login/login.component';
-import { CrearUsuarioComponent } from './component/dashboard/usuarios/crear-usuario/crear-usuario.component';
-import { UsuariosComponent } from './component/dashboard/usuarios/usuarios.component';
-import { VerUsuarioComponent } from './component/dashboard/usuarios/ver-usuario/ver-usuario.component';
+import { CrearUsuarioComponent } from './components/dashboard/usuarios/usuarios/crear-usuario/crear-usuario.component';
+import { UsuariosComponent } from './components/dashboard/usuarios/usuarios/usuarios.component';
+import { VerUsuarioComponent } from './components/dashboard/usuarios/ver-usuario/ver-usuario.component';
 =======
 import { LoginComponent } from './components/login/login.component';
 import { CrearUsuarioComponent } from './components/dashboard/usuarios/crear-usuario/crear-usuario.component';
