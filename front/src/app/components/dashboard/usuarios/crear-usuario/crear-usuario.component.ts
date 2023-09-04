@@ -78,7 +78,6 @@ export class CrearUsuarioComponent implements OnInit {
       userData.token = token;
       userData.id = id;
       try {
-        console.log(userData);
         await this.userService.updateUser(userData);
         this._snackBar.open("El usuario fue actualizada con éxito!", "", {
           duration: 1500,

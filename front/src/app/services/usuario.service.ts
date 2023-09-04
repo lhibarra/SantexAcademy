@@ -79,11 +79,14 @@ export class UserService {
 
   }
 
-  async updateUser(id: number, user: User): Promise<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+  async updateUser(user: User): Promise<User> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${user.token}`
+    });
+    const id = user.id;
     try {
-      const updatedUser = await this.http.put<User>(`${this.appUrl}/${id}`, user, { headers });
+      const updatedUser = await this.http.put<User>(`${this.appUrl}user/${id}`, user, { headers });
       console.log(updatedUser);
       return firstValueFrom(updatedUser);
       console.log(updatedUser);

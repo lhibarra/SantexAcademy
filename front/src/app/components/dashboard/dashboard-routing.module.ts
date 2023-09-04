@@ -18,7 +18,10 @@ const routes: Routes = [
     { path:"", component: InicioComponent },
     { path: 'usuarios', component: UsuariosComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
     { path: 'encuesta', component: EncuestaComponent, canActivate: [RoleGuard], data: { rol: 'encuestador' } },
-    { path: 'crear-usuario', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } }
+    { path: 'crear-usuario', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
+    { path: 'edit-user/:id', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } }
+
+    
   ]}
 ];
 
