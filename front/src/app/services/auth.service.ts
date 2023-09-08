@@ -31,7 +31,7 @@ export class AuthService {
     return this.isAuthenticatedSubject.asObservable();
   }
 
-  hasRole(rol:string): boolean {
+  hasRole(rol:string | string[]): boolean {
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -42,7 +42,7 @@ export class AuthService {
       const decodedToken: any = jwt_decode(token);
       const userRoles = decodedToken.rol.toLowerCase();
   
-      return userRoles.includes(rol.toLowerCase());
+      return Array.isArray(rol) ? rol.includes(userRoles) : userRoles === rol;
     } catch (error) {
       console.error('Error decoding token or checking roles:', error);
       return false;
