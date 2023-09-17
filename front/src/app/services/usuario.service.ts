@@ -8,6 +8,17 @@ import jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class UserService {
+
+  async getUserById(id: number):Promise<User>   {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+  
+  // Usa template literals para construir la URL correctamente
+  const usersObservable = this.http.get<User>("http://localhost:3000/user/" + id,  { headers });
+
+  return await firstValueFrom(usersObservable);
+  }
   private appUrl = environment.APP_URL;
 
   constructor(private http: HttpClient) { }
@@ -68,11 +79,14 @@ export class UserService {
 
   }
 
-  async updateUser(id: number, user: User): Promise<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+  async updateUser(user: User): Promise<User> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${user.token}`
+    });
+    const id = user.id;
     try {
-      const updatedUser = await this.http.put<User>(`${this.appUrl}/${id}`, user, { headers });
+      const updatedUser = await this.http.put<User>(`${this.appUrl}user/${id}`, user, { headers });
       console.log(updatedUser);
       return firstValueFrom(updatedUser);
       console.log(updatedUser);

@@ -11,6 +11,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { EncuestaComponent } from './encuesta/encuesta.component';
 import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
 import { ExpansionComponent } from './encuesta/expansion/expansion.component';
+import { VerUsuarioComponent } from './usuarios/ver-usuario/ver-usuario.component';
 import { LogoutConfirmationComponent } from './navbar/logout-confirmation/logout-confirmation.component';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { LogoutConfirmationComponent } from './navbar/logout-confirmation/logout
     EncuestaComponent,
     CrearUsuarioComponent,
     ExpansionComponent,
+    VerUsuarioComponent,
     LogoutConfirmationComponent,
   
   ],

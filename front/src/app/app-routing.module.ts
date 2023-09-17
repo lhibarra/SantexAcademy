@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { VerUsuarioComponent } from './components/dashboard/usuarios/ver-usuario/ver-usuario.component';
 import { LoginComponent } from './components/login/login.component';
 import { CrearUsuarioComponent } from './components/dashboard/usuarios/crear-usuario/crear-usuario.component';
 import { UsuariosComponent } from './components/dashboard/usuarios/usuarios.component';
@@ -15,8 +16,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path:"**",redirectTo:"login", pathMatch:"full"},
-  
-
 ];
 
 @NgModule({
