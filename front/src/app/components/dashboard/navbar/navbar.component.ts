@@ -12,17 +12,33 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  menu:Menu[]= [];
+  menu: Menu[] = [
+    {
+      nombre: 'Dashboard',
+      redirect: '/dashboard',
+      roles: ['admin', 'encuestador', 'usuario']
+    },
+    {
+      nombre: 'Usuarios',
+      redirect: '/dashboard/usuarios',
+      roles: ['admin']
+    },
+    {
+      nombre: 'Encuesta',
+      redirect: '/dashboard/encuesta',
+      roles: ['admin', 'encuestador']
+    },
+  ];
 
 
   constructor(
     private _menuService: MenuService, 
     private dialog: MatDialog, 
-    private authService: AuthService
+    public authService: AuthService
     ) { }
 
   ngOnInit(): void {
-    this.cargarMenu();
+    // this.cargarMenu();
   }
 
   openLogoutConfirmationModal(): void {
@@ -37,10 +53,10 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  cargarMenu(){
-    this._menuService.getMenu().subscribe(data => {
-      this.menu= data; 
-    })
-  }
+  // cargarMenu(){
+  //   this._menuService.getMenu().subscribe(data => {
+  //     this.menu= data; 
+  //   })
+  // }
 
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { CompartidaModule } from '../compartida/compartida.module';
@@ -13,6 +14,8 @@ import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.co
 import { ExpansionComponent } from './encuesta/expansion/expansion.component';
 import { VerUsuarioComponent } from './usuarios/ver-usuario/ver-usuario.component';
 import { LogoutConfirmationComponent } from './navbar/logout-confirmation/logout-confirmation.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +28,16 @@ import { LogoutConfirmationComponent } from './navbar/logout-confirmation/logout
     ExpansionComponent,
     VerUsuarioComponent,
     LogoutConfirmationComponent,
+    BarChartComponent,
   
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     CompartidaModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxChartsModule,
+    MatAutocompleteModule,
   ]
 })
 export class DashboardModule { }

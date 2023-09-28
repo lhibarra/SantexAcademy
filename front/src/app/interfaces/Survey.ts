@@ -10,5 +10,5 @@ export interface Survey {
     pregunta1: "¿Cuál es su nombre?",
     pregunta2: "¿Cuál es su correo electrónico?",
     pregunta3: "¿Cuál es su edad?",
-    // ... Agrega las descripciones de las demás preguntas aquí
+    
   };
