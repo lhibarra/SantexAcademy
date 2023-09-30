@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/usuario.service';
 
@@ -29,7 +30,7 @@ export class ChangePasswordComponent implements OnInit {
     if (this.passwordForm.valid) {
       this.userService.changePassword(this.passwordForm.value)
         .then(() => this.router.navigate(['dashboard']) )
-        .catch((err)=> console.log('problema'));
+        .catch(catchError)
     }
   }
 }
