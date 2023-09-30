@@ -50,4 +50,5 @@ router.delete(
   userController.deleteUser,
 );
 
+router.put('/:id/change-password', userController.changePassword);
 module.exports = router;
