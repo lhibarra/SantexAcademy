@@ -2,26 +2,47 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user'
 import { environment } from '../../environments/environment';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import jwt_decode from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  async getUserById(id: number):Promise<User>   {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    });
-  
-  // Usa template literals para construir la URL correctamente
-  const usersObservable = this.http.get<User>("http://localhost:3000/user/" + id,  { headers });
-
-  return await firstValueFrom(usersObservable);
-  }
   private appUrl = environment.APP_URL;
 
   constructor(private http: HttpClient) { }
+
+  async changePassword(value: any): Promise<boolean> {
+    // Verificar que 'value' sea un objeto y tiene las propiedades necesarias
+    if (value && value.currentPassword && value.newPassword) {
+      const userId = await this.getIdUserSession(); // Reemplaza esto con la lógica para obtener el ID del usuario
+      const url = `/user/${userId}/change-password`;
+      const body = { currentPassword: value.currentPassword, newPassword: value.newPassword };
+
+      try {
+        await firstValueFrom(this.http.put<boolean>('http://localhost:3000' + url, body));
+        return true;
+      } catch (error) {
+        console.error('Error al cambiar la contraseña:', error);
+        return false;
+      }
+    } else {
+      return Promise.resolve(false); // No se proporcionaron las propiedades necesarias
+    }
+  }
+
+  async getUserById(id: number): Promise<User> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    // Usa template literals para construir la URL correctamente
+    const usersObservable = this.http.get<User>("http://localhost:3000/user/" + id, { headers });
+
+    return await firstValueFrom(usersObservable);
+  }
+
 
   async createUser(user: User) {
     const headers = new HttpHeaders({
@@ -87,9 +108,7 @@ export class UserService {
     const id = user.id;
     try {
       const updatedUser = await this.http.put<User>(`${this.appUrl}user/${id}`, user, { headers });
-      console.log(updatedUser);
       return firstValueFrom(updatedUser);
-      console.log(updatedUser);
     } catch (error) {
       console.error('ERROR', error);
       throw error;

@@ -1,14 +1,17 @@
 [
     {
         "nombre": "Dashboard",
-        "redirect":"/dashboard"
+        "redirect":"/dashboard",
+        "roles": "['admin', 'encuestador', 'usuario']"
     },
     {
         "nombre": "Usuarios",
-        "redirect":"/dashboard/usuarios"
+        "redirect":"/dashboard/usuarios",
+        "roles": "['admin']"
     },
     {
         "nombre": "Encuesta",
-        "redirect":"/dashboard/encuesta"
+        "redirect":"/dashboard/encuesta",
+        "roles": "['admin', 'encuestador']"
     }
 ]

@@ -8,6 +8,7 @@ import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.co
 import { VerUsuarioComponent } from './usuarios/ver-usuario/ver-usuario.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
+import { ChangePasswordComponent } from './usuarios/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,8 @@ const routes: Routes = [
     { path: 'usuarios', component: UsuariosComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
     { path: 'encuesta', component: EncuestaComponent, canActivate: [RoleGuard], data: { rol: ['admin', 'encuestador', 'Admin'] } },
     { path: 'crear-usuario', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
-    { path: 'edit-user/:id', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } }
+    { path: 'edit-user/:id', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
+    { path: 'change-password', component: ChangePasswordComponent }
 
     
   ]}

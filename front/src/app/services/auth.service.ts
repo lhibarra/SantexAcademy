@@ -49,8 +49,35 @@ export class AuthService {
     }
   }
 
+  hasAnyRole(roles: string[]): boolean {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const userRoles = decodedToken.rol.toLowerCase();
+
+      // Verificar si al menos uno de los roles requeridos coincide
+      return roles.some(role => userRoles.includes(role.toLowerCase()));
+    } catch (error) {
+      console.error('Error decoding token or checking roles:', error);
+      return false;
+    }
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     this.isAuthenticatedSubject.next(false);
   }
+
+  changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const url = `/user/${userId}/change-password`;
+    const body = { currentPassword, newPassword };
+    return this.http.put(url, body);
+  }
+
+
 }

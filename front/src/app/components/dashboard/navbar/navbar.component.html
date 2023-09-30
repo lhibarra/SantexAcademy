@@ -1,6 +1,5 @@
 
-    <mat-toolbar color="primary">
-      <!--<span>AppUsers</span>-->
+    <!-- <mat-toolbar color="primary">
       <img src="./assets/img/logo.png" width="13%">
 
       <span class="example-spacer"></span>
@@ -12,5 +11,49 @@
         <mat-icon>logout</mat-icon>
       </button>
         
+    </mat-toolbar>  -->
+
+    <!-- <mat-toolbar color="primary">
+      <img src="./assets/img/logo.png" width="13%">
+
+      <span class="example-spacer"></span>
+      <button mat-button *ngFor="let item of menu" [routerLink]="item.redirect" class="example-button">{{item.nombre}}</button>
+      <span class="example-spacer"></span>
+
+      <button mat-icon-button (click)="openLogoutConfirmationModal()"  class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>logout</mat-icon>
+      </button>
+        
+    </mat-toolbar>  -->
+
+    <!-- <button mat-button *ngIf="authService.hasRole('admin')" [routerLink]="['usuarios']">Usuarios</button>
+    <button mat-button *ngIf="authService.hasRole('admin')" [routerLink]="['/crear-usuario']">Crear Usuario</button>
+    <button mat-button *ngIf="authService.hasRole(['admin', 'encuestador'])" [routerLink]="['/encuesta']">Encuesta</button> -->
+
+    <mat-toolbar color="primary">
+      <img src="./assets/img/logo.png" width="13%">
+    
+      <span class="example-spacer"></span>
+    
+      <ng-container *ngFor="let item of menu">
+        <button mat-button [routerLink]="item.redirect" class="example-button"
+                *ngIf="authService.hasAnyRole(item.roles)">{{item.nombre}}</button>
+      </ng-container>
+      
+    
+      <span class="example-spacer"></span>
+      <button mat-icon-button routerLink="change-password" class="example-icon favorite-icon"
+      aria-label="Example icon-button with heart icon">
+      <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-icon-button (click)="openLogoutConfirmationModal()" class="example-icon favorite-icon"
+              aria-label="Example icon-button with heart icon">
+        <mat-icon>logout</mat-icon>
+      </button>
     </mat-toolbar>
-  
+    
+    
+    
+    
+    
+    

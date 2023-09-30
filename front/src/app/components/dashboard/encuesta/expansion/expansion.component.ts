@@ -1,12 +1,13 @@
 
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormGroupName, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupName, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Survey } from 'src/app/interfaces/Survey';
 import { UserService } from 'src/app/services/usuario.service'
+import { Observable, map, startWith } from 'rxjs';
 @Component({
   selector: 'app-expansion',
   templateUrl: './expansion.component.html',
@@ -14,7 +15,7 @@ import { UserService } from 'src/app/services/usuario.service'
 })
 export class ExpansionComponent implements OnInit {
   setcheckbox = true;
-  
+
   accordion: any;
   pasoUno: FormGroup;
   pregunta9: FormGroup;
@@ -35,14 +36,13 @@ export class ExpansionComponent implements OnInit {
   pregunta24: FormGroup;
   formEnviado: any;
 
-
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar, 
+    private _snackBar: MatSnackBar,
     private http: HttpClient,
     private userService: UserService,
     private route: Router) {
-   
+
     //pregunta 9
     this.pregunta9 = this.fb.group({
       television: [false],
@@ -193,12 +193,12 @@ export class ExpansionComponent implements OnInit {
       pregunta22: this.pregunta22, // asignando el FormGroup pregunta22
       pregunta23: this.pregunta23, // asignando el FormGroup pregunta23
       pregunta24: this.pregunta24, // asignando el FormGroup pregunta24
-          
+
     });
   }
-
+  
   private appUrl = environment.APP_URL;
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   step = 0;
 
@@ -217,21 +217,21 @@ export class ExpansionComponent implements OnInit {
   }
 
   //función para que al menos una respuesta de las múltiples sea seleccionada y valide. 
-   alMenosUna(control: AbstractControl): ValidationErrors | null {
+  alMenosUna(control: AbstractControl): ValidationErrors | null {
     const selectedOptions = Object.values(control.value).some(value => value === true);
-  
+
     if (selectedOptions) {
       return null; // al menos una opción seleccionada, válido
     } else {
       return { alMenosUna: true }; // ninguna opción seleccionada, inválido
     }
   }
-  
- resetForm(event: Event) {
+
+  resetForm(event: Event) {
     event.preventDefault();
     this.pasoUno.reset(); //reinicia el formulario.
-  } 
-  
+  }
+
   async enviar() {
     if (this.pasoUno.valid) {
       const formData = this.pasoUno.value;
@@ -243,14 +243,14 @@ export class ExpansionComponent implements OnInit {
         console.error('No se pudo obtener el ID del usuario:', error);
         // todo: Manejar el error por ejemplo, mostrar un mensaje al usuario
         return; // Salir del método si no se pudo obtener el ID del usuario
-     }
-      
+      }
+
       const survey: Survey = {
         email: formData.pregunta2,
         questions: {},
         surveyorId: idUser,
       };
-  
+
       // Agregar las respuestas de las preguntas al objeto survey
       for (let i = 1; i <= 24; i++) {
         const preguntaKey = `pregunta${i}`;
@@ -260,18 +260,18 @@ export class ExpansionComponent implements OnInit {
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`
       });
-      
+
       const requestOptions = {
         headers: headers
       };
-      
+
       try {
         const response = await this.http.post(`${this.appUrl}api/surveys/`, survey, requestOptions).toPromise();
-        if(!response) {
+        if (!response) {
           return;
         }
         this.formEnviado = true;
-  
+
         this._snackBar.open('Encuesta Enviada!!!', '', {
           duration: 3000,
           horizontalPosition: 'center',
