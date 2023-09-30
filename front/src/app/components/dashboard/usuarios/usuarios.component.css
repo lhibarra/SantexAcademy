@@ -26,3 +26,8 @@ table {
   overflow: hidden;
   text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido es muy largo */
 }
+
+.highlight-row:hover {
+  background-color: #e0e0e0; /* Cambia el color de fondo al pasar el mouse */
+  cursor: pointer; /* Cambia el cursor al estilo de una mano para indicar que es interactivo */
+}

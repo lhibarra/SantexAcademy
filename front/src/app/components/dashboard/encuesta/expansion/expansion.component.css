@@ -1,6 +1,7 @@
 .body{
   display: flex;
   justify-content: center;
+ 
 }
 
 .formulario{
@@ -11,12 +12,13 @@
 
 .title {
   font-weight:580;
-  color:rgb(119, 118, 118);
+  color:rgb(119, 118, 118); 
 }
 
 .mat-expansion-panel{
   margin-top: 12px;
-  background-color: rgb(244, 245, 248);
+  background-color:#e0e0e0;
+  cursor: pointer;
 }
 
 .example-headers-align .mat-expansion-panel-header-description {
