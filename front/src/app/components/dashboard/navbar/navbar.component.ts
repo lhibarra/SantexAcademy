@@ -58,5 +58,5 @@ export class NavbarComponent implements OnInit {
   //     this.menu= data; 
   //   })
   // }
-
+  
 }

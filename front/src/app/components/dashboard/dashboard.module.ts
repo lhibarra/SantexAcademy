@@ -16,6 +16,11 @@ import { VerUsuarioComponent } from './usuarios/ver-usuario/ver-usuario.componen
 import { LogoutConfirmationComponent } from './navbar/logout-confirmation/logout-confirmation.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
+import { ChangePasswordComponent } from './usuarios/change-password/change-password.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -29,6 +34,7 @@ import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
     VerUsuarioComponent,
     LogoutConfirmationComponent,
     BarChartComponent,
+    ChangePasswordComponent,
   
   ],
   imports: [
@@ -38,6 +44,10 @@ import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
     MatDialogModule,
     NgxChartsModule,
     MatAutocompleteModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatCardModule,
   ]
 })
 export class DashboardModule { }

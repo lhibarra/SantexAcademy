@@ -72,4 +72,12 @@ export class AuthService {
     localStorage.removeItem('token');
     this.isAuthenticatedSubject.next(false);
   }
+
+  changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const url = `/user/${userId}/change-password`;
+    const body = { currentPassword, newPassword };
+    return this.http.put(url, body);
+  }
+
+
 }
