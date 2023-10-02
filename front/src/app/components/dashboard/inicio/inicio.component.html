@@ -1,6 +1,40 @@
-<div class="container">
-    <mat-toolbar>
-      <span>Dashboard</span>
-    </mat-toolbar>
+
+
+<div class="container-inicio container-fluid-md">
+
+
+
+
+<div class="mat-card-container">
+<!--Cards-->
+<mat-card  [class.visible]="mostrarCard">
+  <mat-grid-list cols="4" rowHeight="70px">
+    
+    <mat-grid-tile colspan="3" [rowspan]="2" [style.background]="'lightblue'">
+      Encuesta
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" [rowspan]="4" [style.background]="'lightblue'">
+      Usuarios
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" [rowspan]="2" [style.background]="'lightblue'">
+     Muni/Turismo
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" [rowspan]="2" [style.background]="'lightblue'">
+      Ubicación
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="4" [rowspan]="2" [style.background]="'lightblue'">
+      Gráficos
+    </mat-grid-tile>
+
+  
+  </mat-grid-list>
+</mat-card>
+
 </div>
 
+
+</div>

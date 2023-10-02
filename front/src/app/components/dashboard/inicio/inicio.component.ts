@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-
+  mostrarCard = false;
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.mostrarCard = true;
+    }, 2000);
+
+
   }
 
 }
