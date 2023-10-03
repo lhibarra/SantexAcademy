@@ -2,39 +2,60 @@
 
 <div class="container-inicio container-fluid-md">
 
-
-
-
 <div class="mat-card-container">
 <!--Cards-->
 <mat-card  [class.visible]="mostrarCard">
   <mat-grid-list cols="4" rowHeight="70px">
+
+    <!--Encuesta-->
+    <mat-grid-tile id="sel" colspan="3" [rowspan]="2" [style.background]="'lightblue'" [routerLink]="['encuesta']">
+      <div class="contenedor-icono">
+        <img class="imagen-icono" src="../../../../assets/img/iconos/encuesta.png" alt="Imagen de encuesta">
+        <p class="texto-icono">Encuesta</p>
+      </div>
+    </mat-grid-tile>
+
+     <!--Usuarios-->
+    <mat-grid-tile id="sel" colspan="1" [rowspan]="4" [style.background]="'lightblue'" [routerLink]="['usuarios']">
+      <div class="contenedor-icono">
+        <img class="imagen-icono" src="../../../../assets/img/anadir-usuario.png" alt="Imagen de usuarios">
+        <p class="texto-icono">Usuarios</p>
+      </div>
+    </mat-grid-tile>
+
+     <!--Muni/turismo-->
+    <mat-grid-tile id="sel"  colspan="1" [rowspan]="2" [style.background]="'lightblue'">
+      <div class="contenedor-icono">
+      <a href="http://www.minaclavero.gov.ar/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+      
+      <img class="imagen-icono" src="../../../../assets/img/iconos/folleto.png" alt="Imagen de información">
+      <p class="texto-icono">Info</p>
+      </a> 
+    </div>
+    </mat-grid-tile>
     
-    <mat-grid-tile colspan="3" [rowspan]="2" [style.background]="'lightblue'">
-      Encuesta
+     <!--Mapa Turistico-->
+    <mat-grid-tile id="sel" colspan="2" [rowspan]="2" [style.background]="'lightblue'">
+      <div class="contenedor-icono">
+      <a href="http://www.minaclavero.gov.ar/recomendaciones.html" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+        <img class="imagen-icono" src="../../../../assets/img/iconos/pin-de-ubicacion.png" alt="imagen de ubicación">
+       <p class="texto-icono">Mapa Turístico</p> 
+      </a> 
+    </div>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="1" [rowspan]="4" [style.background]="'lightblue'">
-      Usuarios
+    <!--Graficos-->
+    <mat-grid-tile id="sel" colspan="4" [rowspan]="2" [style.background]="'lightblue'">
+      <div class="contenedor-icono">
+        <img class="imagen-icono" src="../../../../assets/img/iconos/estadisticas.png" alt="Imagen de encuesta">
+        <p class="texto-icono">Estadísticas</p>
+      </div>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="1" [rowspan]="2" [style.background]="'lightblue'">
-     Muni/Turismo
-    </mat-grid-tile>
-
-    <mat-grid-tile colspan="2" [rowspan]="2" [style.background]="'lightblue'">
-      Ubicación
-    </mat-grid-tile>
-
-    <mat-grid-tile colspan="4" [rowspan]="2" [style.background]="'lightblue'">
-      Gráficos
-    </mat-grid-tile>
-
-  
   </mat-grid-list>
 </mat-card>
 
 </div>
 
-
 </div>
+
