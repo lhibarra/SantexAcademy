@@ -21,6 +21,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { SurveyListComponent } from './survey-list/survey-list.component'; //jz
+import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.component'; //jz
+
 
 @NgModule({
   declarations: [
@@ -35,6 +38,10 @@ import { MatInputModule } from '@angular/material/input';
     LogoutConfirmationComponent,
     BarChartComponent,
     ChangePasswordComponent,
+    //VerUsuarioComponent, //jz
+    SurveyListComponent, //jz
+    VerEncuestaComponent, //jz
+
   
   ],
   imports: [
