@@ -2,10 +2,11 @@ table {
     width: 100%;
     margin-top: 10px;
   }
+
   
 .pointer{
   cursor: pointer;
-  color: #1f516f;
+  color: #245683;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -22,12 +23,12 @@ table {
   color: white;
 }
 .mat-cell-content-long {
-  white-space: nowrap; /* Evita el salto de línea */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido es muy largo */
+  text-overflow: ellipsis;
 }
 
 .highlight-row:hover {
-  background-color: #e0e0e0; /* Cambia el color de fondo al pasar el mouse */
-  cursor: pointer; /* Cambia el cursor al estilo de una mano para indicar que es interactivo */
+  background-color: #e0e0e0;
+  cursor: pointer; 
 }
