@@ -16,19 +16,18 @@ export class UserService {
   async changePassword(value: any): Promise<boolean> {
     // Verificar que 'value' sea un objeto y tiene las propiedades necesarias
     if (value && value.currentPassword && value.newPassword) {
-      const userId = await this.getIdUserSession(); // Reemplaza esto con la lógica para obtener el ID del usuario
+      const userId = await this.getIdUserSession(); 
       const url = `/user/${userId}/change-password`;
       const body = { currentPassword: value.currentPassword, newPassword: value.newPassword };
 
       try {
         await firstValueFrom(this.http.put<boolean>('http://localhost:3000' + url, body));
-        return true;
+        return Promise.resolve(true);
       } catch (error) {
-        console.error('Error al cambiar la contraseña:', error);
-        return false;
+        return Promise.reject(false);
       }
     } else {
-      return Promise.resolve(false); // No se proporcionaron las propiedades necesarias
+      return Promise.reject(false); // No se proporcionaron las propiedades necesarias
     }
   }
 

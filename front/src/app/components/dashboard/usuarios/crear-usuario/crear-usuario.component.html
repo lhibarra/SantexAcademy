@@ -57,17 +57,11 @@
               
                  <!--botones-->
                  <div class="botonContainer">
-                    <!-- <mat-card-actions> -->
-                        <!--botón volver-->
                         <button class="botonVolver" routerLink="/dashboard/usuarios" mat-raised-button color="primary"  >Volver</button>
-                        <!--botón Aceptar-->
                         <button type="submit" class="botonAceptar" mat-raised-button color="primary"  (click)="createEditUser(id)" [disabled]="form.invalid">Aceptar</button>
-                    <!-- </mat-card-actions> -->
                  </div>
-                
             </form>
         </mat-card>
-    
         <mat-card class="card-ocultar">
                 <!--imagen-->          
                 <div class="ocultar">

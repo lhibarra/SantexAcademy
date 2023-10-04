@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Survey } from 'src/app/interfaces/Survey';
 import { UserService } from 'src/app/services/usuario.service'
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, firstValueFrom, map, startWith } from 'rxjs';
 @Component({
   selector: 'app-expansion',
   templateUrl: './expansion.component.html',
@@ -240,8 +240,13 @@ export class ExpansionComponent implements OnInit {
       try {
         idUser = await this.userService.getIdUserSession();
       } catch (error) {
-        console.error('No se pudo obtener el ID del usuario:', error);
-        // todo: Manejar el error por ejemplo, mostrar un mensaje al usuario
+        this._snackBar.open(`No se pudo obtener el ID del usuario: ${error}`, "", {
+          duration: 1500,
+          horizontalPosition: "center",
+          verticalPosition: "bottom",
+          panelClass: ['custom-snackbar']
+        });
+
         return; // Salir del método si no se pudo obtener el ID del usuario
       }
 
@@ -266,21 +271,25 @@ export class ExpansionComponent implements OnInit {
       };
 
       try {
-        const response = await this.http.post(`${this.appUrl}api/surveys/`, survey, requestOptions).toPromise();
+        const response = await firstValueFrom(this.http.post(`${this.appUrl}api/surveys/`, survey, requestOptions));
         if (!response) {
           return;
         }
         this.formEnviado = true;
 
         this._snackBar.open('Encuesta Enviada!!!', '', {
-          duration: 3000,
+          duration: 2500,
           horizontalPosition: 'center',
           verticalPosition: 'bottom'
         });
         this.route.navigate(['/dashboard']); // todo: redigirir al listado de encuestas
       } catch (error) {
-        console.error('Error al enviar la encuesta:', error);
-        // todo: Manejar el error aquí
+        this._snackBar.open(`Error al enviar la encuesta: ${error}`, "", {
+          duration: 1500,
+          horizontalPosition: "center",
+          verticalPosition: "bottom",
+          panelClass: ['custom-snackbar']
+        });
       }
     }
   }
