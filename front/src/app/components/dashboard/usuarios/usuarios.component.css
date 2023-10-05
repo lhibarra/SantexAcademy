@@ -1,13 +1,8 @@
-.mat-toolbar {
-  background-image: url('../../../../assets/img/portadas/portada.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-
-
-
-
+ mat-toolbar img{
+   width: 60px;
+   height: 60px;
+   margin-right: 11px;
+ }
 
 
 table {
@@ -18,9 +13,9 @@ table {
   
 .pointer{
   cursor: pointer;
-  color: #245683;
   transition: transform 0.2s ease-in-out;
 }
+
 
 .pointer:hover {
   transform: scale(1.2);
@@ -41,6 +36,6 @@ table {
 }
 
 .highlight-row:hover {
-  background-color: #e0e0e0;
+  background-color:rgb(164, 213, 230);
   cursor: pointer; 
 }
