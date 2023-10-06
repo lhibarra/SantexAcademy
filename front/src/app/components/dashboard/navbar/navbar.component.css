@@ -1,5 +1,9 @@
 
 
+.toolbar{
+  background-color: #245683;
+}
+
   .example-icon {
     color: #FEA31C;
   }
@@ -11,7 +15,7 @@
     transform: scale(1.1);
   }
   
-  
   .example-button:hover {
     color: #FEA31C; 
   }
+
