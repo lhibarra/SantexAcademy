@@ -1,6 +1,7 @@
 
 <div class="container">
     <mat-toolbar>
+        <img src="./../../../../assets/img/logoturismo.png" alt="logo de turismo">  
       <span >{{operacion}} Usuario</span>
     </mat-toolbar>
 
@@ -57,7 +58,7 @@
               
                  <!--botones-->
                  <div class="botonContainer">
-                        <button class="botonVolver" routerLink="/dashboard/usuarios" mat-raised-button color="primary"  >Volver</button>
+                        <button class="botonVolver" routerLink="/dashboard/usuarios" mat-raised-button style="background-color:#245683">Volver</button>
                         <button type="submit" class="botonAceptar" mat-raised-button color="primary"  (click)="createEditUser(id)" [disabled]="form.invalid">Aceptar</button>
                  </div>
             </form>
