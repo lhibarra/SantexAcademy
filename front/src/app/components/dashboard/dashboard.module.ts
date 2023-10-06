@@ -38,7 +38,6 @@ import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.compo
     LogoutConfirmationComponent,
     BarChartComponent,
     ChangePasswordComponent,
-    //VerUsuarioComponent, //jz
     SurveyListComponent, //jz
     VerEncuestaComponent, //jz
 

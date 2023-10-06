@@ -1,39 +1,36 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { surveyList } from 'src/app/interfaces/survey-list';
-import { SurveyService } from 'src/app/services/survey.service'; //verificar porque estaria usando uno ya hecho para encuesta
+import { ViewChild } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+import { NgIf } from '@angular/common';
 
+import { UserService } from '../../../services/usuario.service';
+import { surveyList } from 'src/app/interfaces/survey-list';
+import { SurveyService } from 'src/app/services/survey.service';
 import { EncuestaComponent } from 'src/app/components/dashboard/encuesta/encuesta.component';
 import { VerEncuestaComponent } from 'src/app/components/dashboard/encuesta/ver-encuesta/ver-encuesta.component';
 
-import {ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
-
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {NgIf} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
-
-import {AfterViewInit} from '@angular/core';
-
-//import {CompartidaModule} from 'src/app/component/compartida/compartida.module';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
+
+// Listado de Encuestas hardcoded
+/*
 function addHoursToDate(objDate: Date, intHours: number) {
   var numberOfMlSeconds = objDate.getTime();
   var addMlSeconds = (intHours * 60) * 60000;
   var newDateObj = new Date(numberOfMlSeconds - addMlSeconds);
   return newDateObj;
 }
-
-
-
 
 const listEncuestas: surveyList[] = [
   { nombre: "Bernardo", apellido:"au", email: "ju@hotmail.com", questions: { pregunta2: "xga@hotmail" }, surveyorId: 23, createdAt: new Date() },
@@ -48,7 +45,7 @@ const listEncuestas: surveyList[] = [
   { nombre: "Sebastian", apellido:"mi", email: "ju@hotmail.com", questions: { pregunta2: "xga@hotmail" }, surveyorId: 23, createdAt: addHoursToDate(new Date(), 1)},
   
 ];
-
+*/
 
 
 
@@ -62,10 +59,19 @@ const listEncuestas: surveyList[] = [
 
 export class SurveyListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['nombre', 'apellido', 'email', 'createdAt', 'acciones'];
-  
 
-  dataSource: MatTableDataSource<surveyList>; // aqui le paso la interface
+
+  ngOnInit(): void {
+    this.cargarEncuestas();
+  }
+
+  //jz Traigo la interface
+
+  listEncuestas: surveyList[] = [];
+
+  displayedColumns: string[] = ['nombre', 'apellido', 'email', 'createdAt', 'acciones'];
+
+  dataSource!: MatTableDataSource<surveyList>; // aqui le paso la interface
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -73,13 +79,37 @@ export class SurveyListComponent implements OnInit, AfterViewInit {
    error TS2564: Property 'sort' has no initializer and is not definitely assigned in the constructor.
   */
 
-  constructor(public dialog: MatDialog) {
 
-    this.dataSource = new MatTableDataSource(listEncuestas);//Aquilepasolosdatosdelarray
+  constructor(private surveyService: SurveyService, private userService: UserService, private _snackBar: MatSnackBar, public dialog: MatDialog) {
+    //this.dataSource = new MatTableDataSource(this.listEncuestas); //Aqui le pasolosdatos del array
+
   }
 
-  ngOnInit(): void {
+
+
+
+
+  async cargarEncuestas() {
+    
+    //ok this.listEncuestas = [];
+
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      try {
+        this.listEncuestas = await this.surveyService.getSurveys(token);
+        this.dataSource = new MatTableDataSource(this.listEncuestas);
+      } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+      }
+    } else {
+      this._snackBar.open('Debe iniciar sesión con rol Admin para acceder a la lista de usuarios', '', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
+    }
   }
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -96,7 +126,7 @@ export class SurveyListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+
   verEncuesta() {
     const dialogRef = this.dialog.open(VerEncuestaComponent, {
       width: '95%',
@@ -108,6 +138,7 @@ export class SurveyListComponent implements OnInit, AfterViewInit {
     });
 
   }
+
 
 
 }

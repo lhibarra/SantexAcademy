@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Survey } from 'src/app/interfaces/Survey';
 import { UserService } from 'src/app/services/usuario.service'
-
-
+import { Observable, firstValueFrom, map, startWith } from 'rxjs';
 @Component({
   selector: 'app-ver-encuesta',
   templateUrl: './ver-encuesta.component.html',
