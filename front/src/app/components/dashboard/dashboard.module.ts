@@ -29,6 +29,7 @@ import { PieOtherChartComponent } from './charts/pie-chart/pie-hospedaje-chart.c
 import { PieHospedajeRatingChartComponent } from './charts/pie-chart/pie-hospedaje-rating-chart.component';
 import { PieOficinaRatingChartComponent } from './charts/pie-chart/pie-oficina-rating-chart.component';
 import { BarGroupChartComponent } from './charts/bar-group-chart/bar-group-chart.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { BarGroupChartComponent } from './charts/bar-group-chart/bar-group-chart
     MatButtonModule,
     MatFormFieldModule,
     MatCardModule,
+    NgxPaginationModule
   ]
 })
 export class DashboardModule { }

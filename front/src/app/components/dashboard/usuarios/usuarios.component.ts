@@ -16,10 +16,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UsuariosComponent implements OnInit {
 
-  listUsuarios: User[]= [];
+  listUsuarios: User[] = [];
+  page: number = 1;
+  pageSize: number = 10;
 
-  displayedColumns: string[] = [ "firstName", "lastName", "username", "email", "phone", "rol", "acciones"];
-  
+  displayedColumns: string[] = ["firstName", "lastName", "username", "email", "phone", "rol", "acciones"];
+
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -27,11 +29,11 @@ export class UsuariosComponent implements OnInit {
   router: any;
   user: any;
 
-
   constructor(private userService: UserService, private _snackBar: MatSnackBar, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.cargarUsuarios(); 
+    this.cargarUsuarios();
+    this.dataSource.sort = this.sort;
   }
 
   async cargarUsuarios() {
@@ -39,17 +41,28 @@ export class UsuariosComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token !== null) {
       try {
-        this.listUsuarios = await this.userService.getUsers(token);
-        this.dataSource = new MatTableDataSource(this.listUsuarios);
+        this.userService.getUsersPaginator(this.page, this.pageSize).subscribe((data) => {
+          console.log(data);
+          this.listUsuarios = data;
+          this.dataSource = new MatTableDataSource(this.listUsuarios);
+        });
+        // this.listUsuarios = await this.userService.getUsers(token);
+        console.log(this.dataSource);
+        // this.dataSource = new MatTableDataSource(this.listUsuarios);
       } catch (error) {
         console.error('Error al cargar usuarios:', error);
-      } 
-      } else {
-        this._snackBar.open('Debe iniciar sesión con rol Admin para acceder a la lista de usuarios', '', {
+        this._snackBar.open('Ocurrió un error al cargar la lista de usuarios. Por favor, inténtelo nuevamente.', '', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom'
         });
+      }
+    } else {
+      this._snackBar.open('Debe iniciar sesión con rol Admin para acceder a la lista de usuarios', '', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
     }
   }
 
@@ -78,7 +91,7 @@ export class UsuariosComponent implements OnInit {
       );
       return; // Salir de la función si no hay token
     }
-  
+
     try {
       await this.userService.deleteUser({ userId: id, token });
       this.cargarUsuarios();
@@ -99,16 +112,16 @@ export class UsuariosComponent implements OnInit {
       );
     }
   }
-    
-  search(){
+
+  search() {
     this.router.navigate('/dashboard');
   }
 
   abrirVistaDeUsuario(id: any): void {
-    const dialogRef = this.dialog.open(VerUsuarioComponent, {
+    this.dialog.open(VerUsuarioComponent, {
       width: '700px',
-      disableClose:true, 
-      data: {id: id},
+      disableClose: true,
+      data: { id: id },
     });
   }
 

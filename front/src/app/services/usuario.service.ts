@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user'
 import { environment } from '../../environments/environment';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
 @Injectable({
@@ -114,4 +114,10 @@ export class UserService {
     }
   }
 
+  getUsersPaginator(page: number, pageSize: number): Observable<any> {
+
+    return this.http.get(`${this.appUrl}user?page=${page}&pageSize=${pageSize}`);
+  }
 }
+
+
