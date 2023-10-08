@@ -11,6 +11,7 @@ import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.compo
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
 import { ChangePasswordComponent } from './usuarios/change-password/change-password.component';
+import { VistaChartComponent } from './charts/vista-chart/vista-chart.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     { path: 'edit-user/:id', component: CrearUsuarioComponent, canActivate: [RoleGuard], data: { rol: 'admin' } },
     { path: "survey-list", component: SurveyListComponent }, //jz
     { path: "ver-encuesta", component: VerEncuestaComponent }, //jz
-    { path: 'change-password', component: ChangePasswordComponent }
+    { path: 'change-password', component: ChangePasswordComponent },
+    { path: 'estadisticas', component: VistaChartComponent}
   ]}
 ];
 

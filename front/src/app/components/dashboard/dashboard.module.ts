@@ -22,7 +22,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SurveyListComponent } from './survey-list/survey-list.component'; //jz
-import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.component'; //jz
+import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.component';
+import { VistaChartComponent } from './charts/vista-chart/vista-chart.component';
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component'; //jz
+import { PieOtherChartComponent } from './charts/pie-chart/pie-hospedaje-chart.component';
+import { PieHospedajeRatingChartComponent } from './charts/pie-chart/pie-hospedaje-rating-chart.component';
+import { PieOficinaRatingChartComponent } from './charts/pie-chart/pie-oficina-rating-chart.component';
+import { BarGroupChartComponent } from './charts/bar-group-chart/bar-group-chart.component';
 
 
 @NgModule({
@@ -38,10 +44,14 @@ import { VerEncuestaComponent } from './encuesta/ver-encuesta/ver-encuesta.compo
     LogoutConfirmationComponent,
     BarChartComponent,
     ChangePasswordComponent,
-    SurveyListComponent, //jz
-    VerEncuestaComponent, //jz
-
-  
+    SurveyListComponent, 
+    VerEncuestaComponent,
+    VistaChartComponent, 
+    PieChartComponent, 
+    PieOtherChartComponent,
+    PieHospedajeRatingChartComponent,
+    PieOficinaRatingChartComponent,
+    BarGroupChartComponent
   ],
   imports: [
     CommonModule,
