@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize) => {
   class User extends Model {
@@ -7,7 +8,18 @@ module.exports = (sequelize) => {
         foreignKey: 'surveyorId',
       });
     }
+
+    // Método para cambiar la contraseña
+    async changePassword(newPassword) {
+      this.password = newPassword;
+      await this.save();
+    }
+
+    async comparePassword(candidatePassword) {
+      return bcrypt.compare(candidatePassword, this.password);
+    }
   }
+
   User.init(
     {
       firstName: DataTypes.STRING,
@@ -25,5 +37,6 @@ module.exports = (sequelize) => {
       modelName: 'User',
     },
   );
+
   return User;
 };

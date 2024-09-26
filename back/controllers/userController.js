@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const userService = require('../services/userService');
 require('dotenv').config();
 
@@ -46,10 +47,16 @@ async function createUser(req, res, next) {
 
 async function getUsers(req, res) {
   try {
-    const users = await userService.findAll();
+    const page = parseInt(req.query.page || 1, 10);
+    const pageSize = parseInt(req.query.pageSize || 10, 10);
+    const offset = (page - 1) * pageSize;
+
+    const users = await userService.findAll(offset, pageSize);
+
+    // const users = await userService.findAll();
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Error al traer todos los usuarios' });
+    res.status(500).json({ message: 'Error al traer usuarios paginados' });
   }
 }
 
@@ -108,6 +115,28 @@ async function restoreUser(req, res, next) {
   }
 }
 
+async function changePassword(req, res) {
+  try {
+    const { id } = req.params;
+    let { currentPassword, newPassword } = req.body;
+    currentPassword = String(currentPassword);
+    newPassword = String(newPassword);
+
+    // Verifica que la contraseña actual sea correcta
+    const user = await userService.findById(id);
+    const currentPasswordIsValid = await user.comparePassword(currentPassword);
+    if (!currentPasswordIsValid) {
+      return res.status(400).json({ message: 'Contraseña actual incorrecta' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.changePassword(hashedPassword);
+    return res.status(200).json({ message: 'Contraseña cambiada con éxito' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error interno del servidor' });
+  }
+}
+
 module.exports = {
   login,
   createUser,
@@ -116,4 +145,5 @@ module.exports = {
   updateUser,
   deleteUser,
   restoreUser,
+  changePassword,
 };

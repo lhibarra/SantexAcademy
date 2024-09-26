@@ -1,0 +1,41 @@
+ mat-toolbar img{
+   width: 60px;
+   height: 60px;
+   margin-right: 11px;
+ }
+
+
+table {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  
+.pointer{
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+.pointer:hover {
+  transform: scale(1.2);
+}
+
+.mat-form-field {
+  font-size: 15px;
+}
+
+.botonagregar{
+  background-color: #FEA31C;
+  color: white;
+}
+.mat-cell-content-long {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlight-row:hover {
+  background-color:rgb(164, 213, 230);
+  cursor: pointer; 
+}

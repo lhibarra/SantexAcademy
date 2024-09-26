@@ -22,9 +22,13 @@ async function createUser(userDetails) {
   return User.create({ ...userDetails, password: hashedPassword });
 }
 
-async function findAll() {
+async function findUsersPaginated(offset, pageSize) {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      offset, // Define el desplazamiento (offset) en función de la página y el tamaño de la página.
+      limit: pageSize, // Define el número de resultados por página.
+    });
+
     return users;
   } catch (error) {
     throw new Error('Error al traer todos los registros');
@@ -89,7 +93,7 @@ module.exports = {
   getUserByUsername,
   comparePasswords,
   createUser,
-  findAll,
+  findUsersPaginated,
   findById,
   updateUser,
   deleteUser,

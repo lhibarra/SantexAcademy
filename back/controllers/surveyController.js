@@ -10,20 +10,15 @@ async function createSurvey(req, res) {
       surveyorId,
     });
     // Enviar correo de confirmación
-    let formattedQuestions = '';
     const fromName = 'Municipalidad Mina Clavero';
     const subject = 'Confirmación de encuesta realizada';
     const bodyText = 'Gracias por su participación';
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [index, question] of Object.entries(questions)) {
-      formattedQuestions += `<p><strong>Pregunta ${index}:</strong> ${question}</p>`;
-    }
+
     await emailService.sendConfirmationEmail(
       email,
       fromName,
       subject,
       bodyText,
-      formattedQuestions,
     );
     return res.status(201).json({
       message: 'Encuesta creada exitosamente y correo de confirmación enviado',
